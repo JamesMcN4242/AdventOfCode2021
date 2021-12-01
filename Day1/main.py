@@ -1,11 +1,11 @@
-def get_input():
+def get_input() -> list[int]:
     file = open('input.txt', 'r')
     puzzle_input = [int(i) for i in file.readlines()]
     file.close()
     return puzzle_input
 
 
-def solve_part_one(puzzle_input):
+def solve_part_one(puzzle_input: list[int]) -> int:
     increasing = 0
     for i in range(1, len(puzzle_input)):
         if puzzle_input[i] > puzzle_input[i-1]:
@@ -13,7 +13,7 @@ def solve_part_one(puzzle_input):
     return increasing
 
 
-def solve_part_two(puzzle_input):
+def solve_part_two(puzzle_input: list[int]) -> int:
     increasing = 0
     window_one = sum([puzzle_input[i] for i in range(0, 2)])
     for i in range(3, len(puzzle_input)):
