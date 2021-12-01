@@ -5,26 +5,18 @@ def get_input() -> list[int]:
     return puzzle_input
 
 
-def solve_part_one(puzzle_input: list[int]) -> int:
+def solve_puzzle(puzzle_input: list[int], window_size: int) -> int:
     increasing = 0
-    for i in range(1, len(puzzle_input)):
-        if puzzle_input[i] > puzzle_input[i-1]:
-            increasing += 1
-    return increasing
-
-
-def solve_part_two(puzzle_input: list[int]) -> int:
-    increasing = 0
-    for i in range(3, len(puzzle_input)):
-        if puzzle_input[i] > puzzle_input[i-3]:
+    for i in range(window_size, len(puzzle_input)):
+        if puzzle_input[i] > puzzle_input[i - window_size]:
             increasing += 1
     return increasing
 
 
 if __name__ == '__main__':
     int_input = get_input()
-    p1_solution = solve_part_one(int_input)
+    p1_solution = solve_puzzle(int_input, 1)
     print('Part One Solution: ' + str(p1_solution))
 
-    p2_solution = solve_part_two(int_input)
+    p2_solution = solve_puzzle(int_input, 3)
     print('Part Two Solution: ' + str(p2_solution))
