@@ -15,10 +15,8 @@ def solve_part_one(puzzle_input: list[int]) -> int:
 
 def solve_part_two(puzzle_input: list[int]) -> int:
     increasing = 0
-    window_one = sum([puzzle_input[i] for i in range(0, 2)])
     for i in range(3, len(puzzle_input)):
-        window_two = window_one - puzzle_input[i-3] + puzzle_input[i]
-        if window_two > window_one:
+        if puzzle_input[i] > puzzle_input[i-3]:
             increasing += 1
     return increasing
 
