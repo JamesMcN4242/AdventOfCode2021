@@ -3,10 +3,11 @@ use std::io::{BufRead, BufReader};
 
 fn main() {
     let input = get_input();
-    println!("{}", solve_part_one(input));
+    println!("Part One: {}", solve_part_one(&input));
+    println!("Part Two: {}", solve_part_two(&input));
 }
 
-fn solve_part_one(input: Vec<Input>) -> i32 {
+fn solve_part_one(input: &Vec<Input>) -> i32 {
     let mut position = [0, 0];
     
     for element in input {
@@ -14,6 +15,21 @@ fn solve_part_one(input: Vec<Input>) -> i32 {
             Instruction::FORWARD => position[0] += element.value,
             Instruction::UP => position[1] -= element.value,
             Instruction::DOWN => position[1] += element.value,
+        }
+    }
+
+    position[0] * position[1]
+}
+
+fn solve_part_two(input: &Vec<Input>) -> i32 {
+    let mut aim = 0;
+    let mut position = [0, 0];
+    
+    for element in input {
+        match element.instruction {
+            Instruction::FORWARD => {position[0] += element.value; position[1] += element.value * aim;},
+            Instruction::UP => aim -= element.value,
+            Instruction::DOWN => aim += element.value,
         }
     }
 
