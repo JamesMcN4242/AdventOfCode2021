@@ -8,22 +8,45 @@ import (
 )
 
 type BingoCard struct {
+	solved     bool
 	cardRows   [][]int
 	numbersHit map[int]bool
 }
 
 func main() {
 	calledNum, bingoBlocks := LoadInput()
-	fmt.Println("Part One Answer:", SolvePartOne(calledNum, bingoBlocks))
+	partOneSolution, indexStoppedAt := SolvePartOne(calledNum, bingoBlocks)
+
+	fmt.Println("Part One Answer:", partOneSolution)
+	fmt.Println("Part Two Answer:", SolvePartTwo(calledNum, bingoBlocks, indexStoppedAt))
 }
 
-func SolvePartOne(called []int, bingoCards []BingoCard) int {
+func SolvePartOne(called []int, bingoCards []BingoCard) (int, int) {
 	recheckSize := len(bingoCards[0].cardRows)
-
-	for _, calledNum := range called {
-		for _, card := range bingoCards {
+	for calledIndex, calledNum := range called {
+		for cardIndex, card := range bingoCards {
 			if ProcessCardForHit(card, calledNum) && len(card.numbersHit) >= recheckSize && IsCardComplete(card) {
-				return calledNum * GetSummedNonHitNums(card)
+				bingoCards[cardIndex].solved = true
+				return calledNum * GetSummedNonHitNums(card), calledIndex
+			}
+		}
+	}
+
+	return -1, -1
+}
+
+func SolvePartTwo(called []int, bingoCards []BingoCard, calledIndex int) int {
+	recheckSize := len(bingoCards[0].cardRows)
+	unsolved := len(bingoCards) - 1
+
+	for ; calledIndex < len(called); calledIndex++ {
+		for cardIndex, card := range bingoCards {
+			if !card.solved && ProcessCardForHit(card, called[calledIndex]) && len(card.numbersHit) >= recheckSize && IsCardComplete(card) {
+				bingoCards[cardIndex].solved = true
+				unsolved--
+				if unsolved == 0 {
+					return called[calledIndex] * GetSummedNonHitNums(card)
+				}
 			}
 		}
 	}
