@@ -7,6 +7,7 @@ fun main() {
     val instructions = loadInput("input.txt")
     val hashMap = solvePartOne(instructions)
     println("Part One Solution: ${countValOrHigherInMap(hashMap, 2)}")
+    println("Part Two Solution: ${solvePartTwo(instructions, hashMap)}")
 }
 
 fun solvePartOne(instructions: List<Instruction>) : HashMap<Vector2Int, Int> {
@@ -30,6 +31,23 @@ fun solvePartOne(instructions: List<Instruction>) : HashMap<Vector2Int, Int> {
     }
 
     return positionHash
+}
+
+fun solvePartTwo(instructions: List<Instruction>, positionHash: HashMap<Vector2Int, Int>) : Int {
+    for (instruction in instructions) {
+        if (instruction.fromPos.x != instruction.toPos.x && instruction.fromPos.y != instruction.toPos.y) {
+            val min = minOf(instruction.fromPos.x, instruction.toPos.x)
+            val max = maxOf(instruction.fromPos.x, instruction.toPos.x)
+            val startAtFrom = min == instruction.fromPos.x
+            val yAddition = if ((instruction.fromPos.y < instruction.toPos.y && startAtFrom) || (!startAtFrom && instruction.fromPos.y > instruction.toPos.y)) 1 else -1
+            var yVal = if (startAtFrom) instruction.fromPos.y else instruction.toPos.y
+            for (xVal in min..max) {
+                incrementOrAddMapVal(positionHash, Vector2Int(xVal, yVal))
+                yVal += yAddition
+            }
+        }
+    }
+    return countValOrHigherInMap(positionHash, 2)
 }
 
 fun countValOrHigherInMap(positionHash: HashMap<Vector2Int, Int>, value: Int) : Int {
