@@ -43,8 +43,7 @@ class Day3 {
         char removeIfOne = removeLeastCommon ? '1' : '0';
         char removeIfZero = removeLeastCommon ? '0' : '1';
 
-        for(int i = 0; i < charCount && input.size() > 1; ++i)
-        {
+        for(int i = 0; i < charCount && input.size() > 1; ++i) {
             int mostCommon = GetMostCommonBit(input, i);
             char toRemove = mostCommon == 1 ? removeIfOne : removeIfZero;
             int finalI = i;
