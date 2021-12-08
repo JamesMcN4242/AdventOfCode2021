@@ -8,4 +8,4 @@ foreach ($lineInput in $lineSplitInput) {
     $specificValues += $count
 }
 
-echo "Part One Solution: " $specificValues
+Write-Output "Part One Solution: " $specificValues
