@@ -9,4 +9,4 @@ Languages used per day so far:
 5. Kotlin
 6. Zig
 7. Ruby
-8. (Power)Shell
+8. PowerShell
