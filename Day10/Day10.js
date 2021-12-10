@@ -3,7 +3,7 @@ async function loadFile() {
     return await response.text()
 }
 
-function getScore(char) {
+function getScoreIllegal(char) {
     switch (char) {
         case ')': return 3
         case ']': return 57
@@ -13,8 +13,20 @@ function getScore(char) {
     }
 }
 
-function solvePartOne(inputLines) {
+function getScoreIncomplete(char) {
+    switch (char) {
+        case '(': return 1
+        case '[': return 2
+        case '{': return 3
+        case '<': return 4
+        default: return 0
+    }
+}
+
+function solveParts(inputLines) {
     let illegal = []
+    let remaining = []
+
     inputLines.forEach(line => {
         let characterStack = []
         for (let i = 0; i < line.length; ++i) {
@@ -45,19 +57,33 @@ function solvePartOne(inputLines) {
                     break
             }
         }
+
+        remaining.push(characterStack)
     })
 
-    let score = 0
+    let partOneScore = 0
     while (illegal.length > 0) {
-        score += getScore(illegal.pop())
+        partOneScore += getScoreIllegal(illegal.pop())
     }
-    return score
+
+    let partTwoScores = []
+    remaining.forEach(outstanding => {
+        let score = 0
+        while (outstanding.length > 0) {
+            score *= 5
+            score += getScoreIncomplete(outstanding.pop())
+        }
+        partTwoScores.push(score)
+    })
+
+    partTwoScores.sort(function(a, b) { return a - b})
+    return [partOneScore, partTwoScores[Math.floor(partTwoScores.length / 2)]]
 }
 
 loadFile().then(inputBlock => {
         const inputLines = inputBlock.split("\n")
-
-        let outputText = "Part One: " + solvePartOne(inputLines)
+        const output = solveParts(inputLines)
+        const outputText = "Part One: " + output[0] + "\nPart Two: " + output[1]
         document.getElementById("output").innerText = outputText
     }
 )
