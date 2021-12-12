@@ -12,3 +12,4 @@ Languages used per day so far:
 8. PowerShell
 9. Dart (Ran out of time today to really work out Haskell enough to make it usable)
 10. JavaScript
+11. C++
