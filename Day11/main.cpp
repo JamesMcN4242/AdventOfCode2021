@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <iostream>
 #include <queue>
 #include <fstream>
@@ -80,9 +79,70 @@ int SolvePartOne(vector<vector<int>> input, const int dayCount)
 	return flashes;
 }
 
+int SolvePartTwo(vector<vector<int>> input)
+{
+	int day = 0;
+	int previousFlashes = 0;
+	queue<Point> flashingPoints;
+
+	while(previousFlashes != input.size() * input[0].size())
+	{
+		++day;
+		previousFlashes = 0;
+
+		// Increment each by one
+		for (int lineIndex = 0, lineCount = input.size(); lineIndex < lineCount; ++lineIndex)
+		{
+			for (int valIndex = 0, lineSize = input[lineIndex].size(); valIndex < lineSize; ++valIndex)
+			{
+				if (++input[lineIndex][valIndex] > 9)
+				{
+					flashingPoints.push(Point{ lineIndex, valIndex });
+				}
+			}
+		}
+
+		// Loop through flashing points until completion
+		while (flashingPoints.size() > 0)
+		{
+			Point pos = flashingPoints.front();
+			flashingPoints.pop();
+			++previousFlashes;
+
+			for (int rowChange = -1; rowChange <= 1; ++rowChange)
+			{
+				for (int columnChange = -1; columnChange <= 1; ++columnChange)
+				{
+					Point hitPos = Point{ pos.row + rowChange, pos.column + columnChange };
+					if (hitPos.row >= 0 && hitPos.row < input.size() && hitPos.column >= 0 && hitPos.column < input[hitPos.row].size()
+						&& ++input[hitPos.row][hitPos.column] == 10)
+					{
+						flashingPoints.push(hitPos);
+					}
+				}
+			}
+		}
+
+		// Reset anything that has flashed
+		for (int lineIndex = 0, lineCount = input.size(); lineIndex < lineCount; ++lineIndex)
+		{
+			for (int valIndex = 0, lineSize = input[lineIndex].size(); valIndex < lineSize; ++valIndex)
+			{
+				if (input[lineIndex][valIndex] > 9)
+				{
+					input[lineIndex][valIndex] = 0;
+				}
+			}
+		}
+	}
+	return day;
+}
+
+
 void main()
 {
 	auto input = LoadFileText();
 	cout << "Part One: " << SolvePartOne(input, 100) << endl;
+	cout << "Part Two: " << SolvePartTwo(input) << endl;
 	system("PAUSE");
 }
