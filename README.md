@@ -1,5 +1,5 @@
 # AdventOfCode2021
-Repository to hold and compare solutions from advent of code 2021. Initially I planned to complete the first week in different languages, but now that I've passed that mark I'd like to continue it up to 12 days. 12 days of Christmas? Nah. 12 days of coding experimentation.
+Repository to hold and compare solutions from advent of code 2021. Initially I planned to complete the first week in different languages, but after getting near that benchmark I extended it to be up to 12 days. 12 days of Christmas? Nah. 12 days of coding experimentation.
 
 Languages used per day so far:
 1. Python (regret not saving this for later)
@@ -14,3 +14,5 @@ Languages used per day so far:
 10. JavaScript
 11. C++
 12. C#
+
+Now that my challenge is complete I won't be recording the languages I use going forward. Most likely it'll be Python for most days to try get more familiar with it.
